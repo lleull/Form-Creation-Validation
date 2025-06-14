@@ -1,27 +1,4 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//   // Select the registration form
-//   const form = document.getElementById("registration-form");
-
-//   // Select the feedback division
-//   const feedbackDiv = document.getElementById("form-feedback");
-
-//   // Log the form element to verify selection
-//   console.log("Form element:", form);
-//   console.log("Feedback div:", feedbackDiv);
-
-//   // Add submit event listener to the form
-//   form.addEventListener("submit", (event) => {
-//     // Prevent the default form submission
-//     event.preventDefault();
-
-//     // Log that the form was submitted
-//     console.log("Form submitted");
-
-//     // You can add your form handling logic here
-//   });
-// });
-
-document.addEventListener("DOMContentLoaded", () => {
+function initializeForm() {
   const form = document.getElementById("registration-form");
   const feedbackDiv = document.getElementById("form-feedback");
 
@@ -79,4 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   console.log("feedbackDiv", feedbackDiv);
-});
+}
+
+// Wait for DOM content to be fully loaded
+document.addEventListener("DOMContentLoaded", initializeForm);
