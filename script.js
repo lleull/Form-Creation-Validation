@@ -59,32 +59,32 @@ function initializeForm() {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     let isValid = true;
-    let errorMessages = [];
+    let messages = [];
 
     // Get all form input values
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
     // Validate username
     const usernameError = validateUsername(username);
     if (usernameError) {
       isValid = false;
-      errorMessages.push(usernameError);
+      messages.push(usernameError);
     }
 
     // Validate password
     const passwordError = validatePassword(password);
     if (passwordError) {
       isValid = false;
-      errorMessages.push(passwordError);
+      messages.push(passwordError);
     }
 
     // Validate email
     const emailError = validateEmail(email);
     if (emailError) {
       isValid = false;
-      errorMessages.push(emailError);
+      messages.push(emailError);
     }
 
     // Make feedback div visible and set its style
@@ -99,7 +99,7 @@ function initializeForm() {
       feedbackDiv.style.backgroundColor = "#d4edda";
       feedbackDiv.style.border = "1px solid #c3e6cb";
     } else {
-      feedbackDiv.innerHTML = errorMessages.join("<br>");
+      feedbackDiv.innerHTML = messages.join("<br>");
       feedbackDiv.style.color = "#dc3545";
       feedbackDiv.style.backgroundColor = "#f8d7da";
       feedbackDiv.style.border = "1px solid #f5c6cb";
@@ -111,7 +111,7 @@ function initializeForm() {
       email: email,
       password: password,
       isValid: isValid,
-      errors: errorMessages
+      messages: messages
     });
 
     // You can also get all form data using FormData
@@ -125,4 +125,68 @@ function initializeForm() {
 }
 
 // Wait for DOM content to be fully loaded
-document.addEventListener("DOMContentLoaded", initializeForm);
+document.addEventListener("DOMContentLoaded", () => {
+  // Form Selection
+  const form = document.getElementById("registration-form");
+  const feedbackDiv = document.getElementById("form-feedback");
+
+  // Form Submission Event Listener
+  form.addEventListener("submit", (event) => {
+    // Prevent default form submission
+    event.preventDefault();
+
+    // Initialize validation variables
+    let isValid = true;
+    let messages = [];
+
+    // Retrieve and trim user inputs
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    // Username Validation
+    if (username.length < 3) {
+      isValid = false;
+      messages.push("Username must be at least 3 characters long");
+    }
+
+    // Email Validation
+    if (!email.includes("@") || !email.includes(".")) {
+      isValid = false;
+      messages.push("Please enter a valid email address");
+    }
+
+    // Password Validation
+    if (password.length < 8) {
+      isValid = false;
+      messages.push("Password must be at least 8 characters long");
+    }
+
+    // Display Feedback
+    feedbackDiv.style.display = "block";
+    feedbackDiv.style.padding = "10px";
+    feedbackDiv.style.borderRadius = "4px";
+    feedbackDiv.style.marginTop = "10px";
+
+    if (isValid) {
+      feedbackDiv.textContent = "Registration successful!";
+      feedbackDiv.style.color = "#28a745";
+      feedbackDiv.style.backgroundColor = "#d4edda";
+      feedbackDiv.style.border = "1px solid #c3e6cb";
+    } else {
+      feedbackDiv.innerHTML = messages.join("<br>");
+      feedbackDiv.style.color = "#dc3545";
+      feedbackDiv.style.backgroundColor = "#f8d7da";
+      feedbackDiv.style.border = "1px solid #f5c6cb";
+    }
+
+    // Log form data for debugging
+    console.log("Form Data:", {
+      username: username,
+      email: email,
+      password: password,
+      isValid: isValid,
+      messages: messages
+    });
+  });
+});
